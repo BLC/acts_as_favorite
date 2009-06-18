@@ -34,7 +34,7 @@ module ActsAsFavorite
         favorite = get_favorite( favorite_obj )
         if favorite.nil?
           favorite = Favorite.create( :user_id => self.id,
-                                      :favorable_type => favorite_obj.class.to_s, 
+                                      :favorable_type => favorite_obj.class.base_class.to_s,
                                       :favorable_id   => favorite_obj.id )
         end
         favorite

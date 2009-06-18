@@ -17,8 +17,15 @@ class Drink < ActiveRecord::Base
   acts_as_favorite
 end
 
+class Animal < ActiveRecord::Base
+end
+
+class Duck < Animal
+  acts_as_favorite
+end
+
 class ActsAsFavoriteTest < Test::Unit::TestCase
-  fixtures :users, :books, :drinks, :favorites
+  fixtures :users, :books, :drinks, :animals, :favorites
 
   def test_should_create_favorite
     assert_difference users(:james).favorites, :count do
@@ -70,6 +77,16 @@ class ActsAsFavoriteTest < Test::Unit::TestCase
     assert_equal users(:george).favorites(true).size, 1
     assert users(:george).favorite_books.size, 1
 
+  end
+
+  def test_should_work_with_subclasses
+    assert users(:tobias).favorites.empty?
+
+    users(:tobias).has_favorite animals(:duckie)
+
+    assert_equal users(:tobias).favorites(true).size, 1
+    assert users(:tobias).has_favorite?(animals(:duckie))
+    assert_equal users(:tobias).favorite_ducks.size, 1
   end
 
 end

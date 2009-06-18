@@ -19,6 +19,9 @@ ActiveRecord::Schema.define(:version => 1) do
   create_table :drinks, :force => true do |t|
     t.column :title,            :string, :limit => 30
   end
-
+  
+  create_table :animals, :force => true do |t|
+    t.column :animal_type,     :string, :limit => 30
+  end
 end
   
