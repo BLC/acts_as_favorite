@@ -19,10 +19,6 @@ end
 
 class ActsAsFavoriteTest < Test::Unit::TestCase
   fixtures :users, :books, :drinks, :favorites
-  
-  def test_user_should_have_favorites
-    assert users(:josh).has_favorites?
-  end
 
   def test_should_create_favorite
     assert_difference users(:james).favorites, :count do
@@ -52,26 +48,26 @@ class ActsAsFavoriteTest < Test::Unit::TestCase
   end
 
   def test_should_return_users_with_specified_favorite
-    assert books(:ruby).favorite_users.include?(users(:josh))
+    assert books(:ruby).favoriting_users.include?(users(:josh))
   end
 
   def test_should_add_and_remove_favorites
-
     assert users(:george).favorites.empty?
 
-    assert_difference users(:george).favorites, :count, 3 do
+    assert_difference users(:george).favorites(true), :count, 3 do
       users(:george).has_favorite books(:agile)
       users(:george).has_favorite books(:ruby)
       users(:george).has_favorite books(:rails)
     end
-    assert_equal users(:george).favorites.size, 3
+
+    assert_equal users(:george).favorites(true).size, 3
     assert users(:george).favorite_books.size, 3
 
-    assert_difference users(:george).favorites, :count, -2 do
+    assert_difference users(:george).favorites(true), :count, -2 do
       users(:george).has_no_favorite books(:agile)
       users(:george).has_no_favorite books(:ruby)
     end
-    assert_equal users(:george).favorites.size, 1
+    assert_equal users(:george).favorites(true).size, 1
     assert users(:george).favorite_books.size, 1
 
   end
