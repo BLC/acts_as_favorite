@@ -79,14 +79,30 @@ class ActsAsFavoriteTest < Test::Unit::TestCase
 
   end
 
-  def test_should_work_with_subclasses
+  def test_add_should_work_with_subclasses
+    duckie = Duck.create!
     assert users(:tobias).favorites.empty?
 
-    users(:tobias).has_favorite animals(:duckie)
+    users(:tobias).has_favorite duckie
 
     assert_equal users(:tobias).favorites(true).size, 1
-    assert users(:tobias).has_favorite?(animals(:duckie))
+    assert users(:tobias).has_favorite?(duckie)
     assert_equal users(:tobias).favorite_ducks.size, 1
+  end
+
+  def test_remove_should_work_with_subclasses
+    duckie = Duck.create!
+    assert users(:michael).favorites.empty?
+
+    users(:michael).has_favorite duckie
+
+    assert_equal users(:michael).favorites(true).size, 1
+    assert users(:michael).has_favorite?(duckie)
+    assert_equal users(:michael).favorite_ducks.size, 1
+
+    users(:michael).has_no_favorite duckie
+    assert_equal users(:michael).favorites(true).size, 0
+    assert_equal users(:michael).favorite_ducks.size, 0
   end
 
 end

@@ -17,3 +17,7 @@ george:
 tobias:
   id: 5
   name: Tobias
+  
+michael:
+  id: 6
+  name: Michael

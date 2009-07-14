@@ -47,7 +47,6 @@ module ActsAsFavorite
         # ACA: The original plugin did not properly destroy the favorite.
         # Instead, it just removed the element from the favorites list. If the
         # favorites list was refetched from the DB, surprise! It came back!
-        
         if favorite
           self.favorites.delete( favorite )
           favorite_obj.favorites.delete( favorite )
@@ -62,9 +61,10 @@ module ActsAsFavorite
         # ACA: The original plugin did not incoorporate the user id. This
         # meant that the has_many associations did not find favorites
         # properly.
+
         Favorite.find( :first,
                        :conditions => [ 'user_id = ? AND favorable_type = ? AND favorable_id = ?',
-                                         self.id, favorite_obj.class.to_s, favorite_obj.id ] )
+                                         self.id, favorite_obj.class.base_class.to_s, favorite_obj.id ] )
       end
     end
   end
